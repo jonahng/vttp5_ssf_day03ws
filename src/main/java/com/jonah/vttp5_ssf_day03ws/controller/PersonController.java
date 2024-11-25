@@ -70,7 +70,11 @@ public class PersonController {
     public String accessPerson(@PathVariable("person-id") String personId, Model model) {
         //create function to get person from txt file
         //Person p = personService.(getPersonFromTXTFILE)
+       
         //model.addAttribute("person", p);
+        System.out.println("got the personID request! Trying to access: " + personId);
+        Person personFromFile = personService.readPersonFile(personId);
+        model.addAttribute("person", personFromFile);
         return "personpage";
     }
     

@@ -1,10 +1,19 @@
 package com.jonah.vttp5_ssf_day03ws.service;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -60,6 +69,51 @@ public class PersonService {
 
         myWriter.close();
         System.out.println("tried writing to the new file!");
+
+    }
+
+    public Person readPersonFile(String personID){
+        String filePath = "C:\\Users\\65932\\vttp5_ssf_day03ws\\FILES\\" + personID + ".txt";
+        List<String> fileData = new ArrayList<>();
+        Person personFromFile = new Person();
+        if(new File(filePath).isFile()){
+            System.out.println("File found!: " + personID);
+            try {FileReader fileReader = new FileReader(filePath);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            String lineRead = "";
+            
+            
+                while(((lineRead = bufferedReader.readLine())!=null)){
+                    fileData.add(lineRead);
+                    System.out.println("data read from file: " + lineRead);
+                }
+                bufferedReader.close();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+            sdf.setTimeZone(TimeZone.getTimeZone("GMT+08:00"));
+
+            Date dateRead = null;
+            try {
+                dateRead = sdf.parse(fileData.get(3));
+            } catch (ParseException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            personFromFile = new Person(fileData.get(0),fileData.get(1),
+            Long.parseLong(fileData.get(2)), dateRead
+             );
+
+            System.out.println("read file! returning person object");
+            return personFromFile;
+
+        }
+        else{
+            System.out.println("file not found!");
+            return personFromFile;
+        }
 
     }
 
