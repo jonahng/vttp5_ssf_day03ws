@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>My Website</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="icon" href="./favicon.ico" type="image/x-icon">
+  </head>
+  <body>
+
+    <main>
+        <h1>create person</h1>  
+        <p>input</p>
+        <form method ="post" data-th-action="@{/persons/create}" th:object ="${person}">
+          <label>PLEASE FILL IN ALL FIELDS</label>
+
+          
+          <input type = "text" class = "form-control" name ="firstName" th:field="*{firstName}" placeholder = "Enter first name here">
+          <div class ="textcolor-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
+
+          <input type = "text" class = "form-control" name ="email"  th:field="*{email}" placeholder = "Enter email here">
+          <div class ="textcolor-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+
+          <input type = "number" class = "form-control" name="phoneNumber"  th:field= "*{phoneNumber}" placeholder = "Enter phoneNumber here">
+         <div class ="textcolor-danger" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></div>
+
+          <input type = "date" class = "form-control" name = "dob"  th:field="*{dob}" placeholder = "Enter birth date here">
+          <div class ="textcolor-danger" th:if="${#fields.hasErrors('dob')}" th:errors="*{dob}"></div>
+
+          <button type = "submit">submit?</button>
+
+        </form>
+
+
+        
+    </main>
+    <script src="index.js"></script>
+  </body>
+</html>
