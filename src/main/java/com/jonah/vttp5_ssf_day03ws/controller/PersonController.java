@@ -77,6 +77,15 @@ public class PersonController {
         model.addAttribute("person", personFromFile);
         return "personpage";
     }
+
+    @GetMapping("/contacts")
+    public String getMethodName(Model model) {
+        List<String> availableFiles = personService.availableFiles();
+        System.out.println("available files are: " + availableFiles);
+        model.addAttribute("contacts", availableFiles);
+        return "contacts";
+    }
+    
     
     
 

@@ -14,6 +14,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.TimeZone;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -115,6 +117,20 @@ public class PersonService {
             return personFromFile;
         }
 
+    }
+
+    public List<String> availableFiles(){
+        List<String> existingFiles = Stream.of(new File("C:\\Users\\65932\\vttp5_ssf_day03ws\\FILES").listFiles())
+        .filter(file -> !file.isDirectory())
+        .map(File::getName)
+        .collect(Collectors.toList());
+
+        List<String> filesWithoutExtension = new ArrayList<>();
+        for(String fileName : existingFiles){
+            
+            filesWithoutExtension.add(fileName.substring(0,fileName.lastIndexOf('.')));
+        }
+        return filesWithoutExtension;
     }
 
 

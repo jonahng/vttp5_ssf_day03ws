@@ -14,7 +14,7 @@
     
 
     <main>
-        <h1>THE PERSON FILE YOU ARE TRYING TO ACCESS</h1>  
+        <h1>List of people</h1>  
         <p>Text</p>
 
         <table class="table table-striped">
@@ -27,16 +27,12 @@
             </tr>
           </thead>
           <tbody>
-            <tr data-th-each="person, state : ${person}">
-              <p data-th-if="${state.size gt 0}">
-                <td data-th-text ="${person.firstName}"></td>
-                <td data-th-text ="${person.email}"></td>
-                <td data-th-text ="${person.phoneNumber}"></td>
-
-                <td data-th-text ="${#dates.format(person.dob, 'dd/MMM/yyyy HH:mm')}"></td>
-
+            <tr data-th-each="personID, state : ${contacts}">
+              <a data-th-href = "@{'/persons/' + ${personID}}">ID TO ACCESS: <span data-th-text="${personID}"></span></a>
               </p>
-
+              <p data-th-if="${state.size le 0}">
+                NO RECORDS!
+              </p>
             
               
             </tr>

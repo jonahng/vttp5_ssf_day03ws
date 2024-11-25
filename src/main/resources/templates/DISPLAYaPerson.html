@@ -35,8 +35,13 @@
 
                 <td data-th-text ="${#dates.format(person.dob, 'dd/MMM/yyyy HH:mm')}"></td>
 
-              </p>
 
+              </p>
+              
+              <p data-th-if="${state.size le 0}">
+                <h1>NO RECORDS!</h1>
+                <h1></h1>
+              </p>
             
               
             </tr>
