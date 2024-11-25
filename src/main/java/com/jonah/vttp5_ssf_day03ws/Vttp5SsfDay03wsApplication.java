@@ -1,7 +1,7 @@
 package com.jonah.vttp5_ssf_day03ws;
 
 import java.io.File;
-import java.io.FileWriter;
+
 import java.io.IOException;
 
 import org.springframework.boot.ApplicationArguments;
@@ -20,10 +20,9 @@ public class Vttp5SsfDay03wsApplication {
 		if(argOptions.containsOption("dataDir")){
 			fileLocation = argOptions.getOptionValues("dataDir").get(0);
 		}
-		File file = new File(fileLocation);
-		file.mkdir();
-		System.out.println("created director /opt/tmp/data");
+		
 		app.run(args);
 
 }
+
 }

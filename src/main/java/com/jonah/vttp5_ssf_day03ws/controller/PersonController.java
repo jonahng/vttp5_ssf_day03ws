@@ -1,5 +1,6 @@
 package com.jonah.vttp5_ssf_day03ws.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -38,6 +40,7 @@ public class PersonController {
         System.out.println("mapping to /create works.");
         Person p = new Person();
         model.addAttribute("person", p);
+        personService.generateID();
         return "personcreate";
     }
 
@@ -46,10 +49,31 @@ public class PersonController {
         if(result.hasErrors()){
             return "personcreate";
         }
+
+        //creating a new person
         Person p = new Person(person.getFirstName(), person.getEmail(), person.getPhoneNumber(), person.getDob());
         personService.create(p);
+
+        //generating unique id, creating txt file, writing to txt file
+        String personID = personService.generateID();
+        personService.createFile(personID);
+        try {
+            personService.writeToFile(personID, p);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         return "redirect:/persons";
     }
+
+    @GetMapping("/{person-id}")
+    public String accessPerson(@PathVariable("person-id") String personId, Model model) {
+        //create function to get person from txt file
+        //Person p = personService.(getPersonFromTXTFILE)
+        //model.addAttribute("person", p);
+        return "personpage";
+    }
+    
     
 
 
