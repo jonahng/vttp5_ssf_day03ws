@@ -15,6 +15,9 @@ import com.jonah.vttp5_ssf_day03ws.constant.Constant;
 public class RedisConfig {
         // slide 17
 
+
+        //WRITET THESE INTO APPLICATION PROPERTIES TOO!
+
     @Value("${spring.data.redis.host}")
     private String redisHost;
 
