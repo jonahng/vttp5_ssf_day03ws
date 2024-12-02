@@ -6,7 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
-/* import java.text.SimpleDateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -21,20 +21,41 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jonah.vttp5_ssf_day03ws.Vttp5SsfDay03wsApplication;
+import com.jonah.vttp5_ssf_day03ws.constant.Constant;
 import com.jonah.vttp5_ssf_day03ws.model.Person;
-import com.jonah.vttp5_ssf_day03ws.repo.PersonRepo;
+import com.jonah.vttp5_ssf_day03ws.repo.ListRepo;
+
 
 @Service
-public class PersonService {
+public class PersonServiceRedis {
     @Autowired
-    PersonRepo personRepo;
+    ListRepo listRepo;
 
-    public List<Person> findAll(){
-        return personRepo.findAll();
+
+    public List<Person> findAll(String redisKey){
+        List<String> people = listRepo.getList(redisKey);
+        List<Person> personRecords = new ArrayList<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT+08:00"));
+        Date dateRead = null;
+            
+        for(String raw : people){
+            String[] data = raw.split(",");
+            try {
+                dateRead = sdf.parse(data[3]);
+            } catch (ParseException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            Person p = new Person(data[0], data[1], Long.parseLong(data[2]), dateRead);
+            personRecords.add(p);
+        }
+        return personRecords;
     }
 
-    public Boolean create(Person person){
-        return personRepo.create(person);
+    public void create(Person person){
+        listRepo.rightPush(Constant.personKey, person.toString());
+        //NOT SURE IF THE KEY MUST BE SAME FOR ALL OR
     }
 
 
@@ -47,7 +68,7 @@ public class PersonService {
     }
 
 
-    public void createFile(String fileName){
+/*     public void createFile(String fileName){
         
         File file = new File("C:\\Users\\65932\\vttp5_ssf_day03ws\\FILES\\" + fileName + ".txt");
         try {
@@ -58,11 +79,11 @@ public class PersonService {
         }
 
         System.out.println("created file " + fileName + " in dir: " +   "FILES");
-    }
+    } */
 
 
     //maybe should not take in file, should take in filename?
-    public void writeToFile(String personID, Person person) throws IOException{
+/*     public void writeToFile(String personID, Person person) throws IOException{
         FileWriter myWriter = new FileWriter("C:\\Users\\65932\\vttp5_ssf_day03ws\\FILES\\" + personID + ".txt");
         myWriter.write(person.getFirstName() +"\n");
         myWriter.write(person.getEmail() +"\n");
@@ -72,7 +93,7 @@ public class PersonService {
         myWriter.close();
         System.out.println("tried writing to the new file!");
 
-    }
+    } */
 
     public Person readPersonFile(String personID){
         String filePath = "C:\\Users\\65932\\vttp5_ssf_day03ws\\FILES\\" + personID + ".txt";
@@ -136,4 +157,3 @@ public class PersonService {
 
 
 }
- */

@@ -9,8 +9,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.jonah.vttp5_ssf_day03ws.constant.Constant;
 import com.jonah.vttp5_ssf_day03ws.model.Person;
-import com.jonah.vttp5_ssf_day03ws.service.PersonService;
+
+import com.jonah.vttp5_ssf_day03ws.service.PersonServiceRedis;
 
 import jakarta.validation.Valid;
 
@@ -25,12 +27,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/persons")
 public class PersonController {
     @Autowired
-    PersonService personService;
+    PersonServiceRedis personService;
 
 
     @GetMapping("")
     public String personsList(Model model) {
-        List<Person> personList = personService.findAll();
+        List<Person> personList = personService.findAll(Constant.personKey);
         model.addAttribute("persons",personList);
         return "personList";
     }
@@ -55,14 +57,14 @@ public class PersonController {
         personService.create(p);
 
         //generating unique id, creating txt file, writing to txt file
-        String personID = personService.generateID();
+/*         String personID = personService.generateID();
         personService.createFile(personID);
         try {
             personService.writeToFile(personID, p);
         } catch (IOException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+            e.printStackTrace(); */
+        /* } */
         return "redirect:/persons";
     }
 

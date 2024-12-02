@@ -80,8 +80,7 @@ public class Person {
 
     @Override
     public String toString() {
-        return "Person [firstName=" + firstName + ", email=" + email + ", phoneNumber=" + phoneNumber + ", dob=" + dob
-                + "]";
+        return firstName + "," + email + "," + phoneNumber + "," + dob;
     }
     
     
