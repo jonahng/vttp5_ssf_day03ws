@@ -2,7 +2,7 @@ FROM eclipse-temurin:23-jdk
 
 LABEL MAINTAINER ="jonahng"
 LABEL description ="This is vttp5 ssf day 3 lecture demo for dockerization"
-LABEL name="vttp5_ssf_day02ws"
+LABEL name="vttp5_ssf_day03ws"
 
 ARG APP_DIR=/APP_DIR
 
@@ -25,5 +25,5 @@ ENV SERVER_PORT 3000
 
 EXPOSE ${SERVER_PORT}
 
-ENTRYPOINT SERVER_PORT=${SERVER_PORT} java -jar target/vttp5_ssf_day02ws-0.0.1-SNAPSHOT.jar
+ENTRYPOINT SERVER_PORT=${SERVER_PORT} java -jar target/vttp5_ssf_day03ws-0.0.1-SNAPSHOT.jar
 #NAME comes from the pom.xml artifact id - version .jar
